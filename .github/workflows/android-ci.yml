@@ -1,0 +1,73 @@
+name: Android CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    env:
+      ANDROID_COMPILE_SDK: 33
+      ANDROID_BUILD_TOOLS: 33.0.2
+      ANDROID_SDK_TOOLS: 9477386
+      NDK_VERSION: 26.2.11394342
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up JDK 11
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'adopt'
+          java-version: '11'
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get --quiet update --yes
+          sudo apt-get --quiet install --yes wget unzip git cmake make m4 g++ pkg-config libssl-dev python-is-python3 python3-distutils python3-venv tcl gyp ninja-build bzip2 libz-dev libffi-dev libsqlite3-dev
+
+      - name: Set up Android SDK
+        run: |
+          export ANDROID_HOME=${PWD}/android-sdk-root
+          mkdir -p $ANDROID_HOME
+          wget --no-verbose --output-document=$ANDROID_HOME/cmdline-tools.zip https://dl.google.com/android/repository/commandlinetools-linux-${ANDROID_SDK_TOOLS}_latest.zip
+          unzip -q -d $ANDROID_HOME/cmdline-tools $ANDROID_HOME/cmdline-tools.zip
+          mv -T $ANDROID_HOME/cmdline-tools/cmdline-tools $ANDROID_HOME/cmdline-tools/tools
+          echo "export PATH=\$PATH:$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/cmdline-tools/tools/bin" >> $GITHUB_ENV
+
+      - name: Accept SDK licenses and install packages
+        run: |
+          sdkmanager --version
+          yes | sdkmanager --licenses > /dev/null || true
+          sdkmanager "platforms;android-${ANDROID_COMPILE_SDK}"
+          sdkmanager "platform-tools"
+          sdkmanager "build-tools;${ANDROID_BUILD_TOOLS}"
+          sdkmanager "ndk;${NDK_VERSION}"
+
+      - name: Clone fdroidserver
+        run: |
+          . /etc/profile.d/bsenv.sh
+          git clone --depth 1 https://gitlab.com/fdroid/fdroidserver.git "${fdroidserver}"
+          sudo apt-get --quiet install --yes patch autoconf libtool pkg-config ant
+
+      - name: Clone fdroiddata and build
+        run: |
+          . /etc/profile.d/bsenv.sh && export GRADLE_USER_HOME=${home_vagrant}/.gradle
+          export ANDROID_HOME=${PWD}/android-sdk-root
+          env
+          git clone https://gitlab.com/fdroid/fdroiddata.git fdroiddata
+          cd fdroiddata
+          ${fdroidserver}/fdroid build -vv -s us.spotco.fennec_dos:21270020
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: build-outputs
+          path: build/fenix/app/build/outputs/
