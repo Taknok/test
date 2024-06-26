@@ -40,10 +40,11 @@ jobs:
           wget --no-verbose --output-document=$ANDROID_HOME/cmdline-tools.zip https://dl.google.com/android/repository/commandlinetools-linux-${ANDROID_SDK_TOOLS}_latest.zip
           unzip -q -d $ANDROID_HOME/cmdline-tools $ANDROID_HOME/cmdline-tools.zip
           mv -T $ANDROID_HOME/cmdline-tools/cmdline-tools $ANDROID_HOME/cmdline-tools/tools
-          echo "export PATH=\$PATH:$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/cmdline-tools/tools/bin" >> $GITHUB_ENV
 
       - name: Accept SDK licenses and install packages
         run: |
+          export ANDROID_HOME=${PWD}/android-sdk-root
+          export PATH=\$PATH:$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/cmdline-tools/tools/bin
           sdkmanager --version
           yes | sdkmanager --licenses > /dev/null || true
           sdkmanager "platforms;android-${ANDROID_COMPILE_SDK}"
