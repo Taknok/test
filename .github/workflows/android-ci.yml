@@ -11,7 +11,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
+    container: registry.gitlab.com/fdroid/fdroidserver:buildserver
     env:
       ANDROID_COMPILE_SDK: 33
       ANDROID_BUILD_TOOLS: 33.0.2
@@ -41,12 +41,6 @@ jobs:
             platform-tools
             build-tools;${{ env.ANDROID_BUILD_TOOLS }}
             ndk;${{ env.NDK_VERSION }}
-
-      - name: Clone fdroidserver
-        run: |
-          . /etc/profile.d/bsenv.sh
-          git clone --depth 1 https://gitlab.com/fdroid/fdroidserver.git "${fdroidserver}"
-          sudo apt-get --quiet install --yes patch autoconf libtool pkg-config ant
 
       - name: Clone fdroiddata and build
         run: |
