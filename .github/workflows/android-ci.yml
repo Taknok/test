@@ -18,6 +18,15 @@ jobs:
       NDK_VERSION: 26.2.11394342
 
     steps:
+      - name: Maximize build space
+        uses: easimon/maximize-build-space@v10
+        with:
+          remove-docker-images: 'true'
+          remove-codeql: 'true'
+          remove-haskell: 'true'
+          remove-android: 'true"'
+          remove-dotnet: 'true'
+
       - name: Checkout repository
         uses: actions/checkout@v4
 
