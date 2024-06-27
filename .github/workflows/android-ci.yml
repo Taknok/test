@@ -47,8 +47,6 @@ jobs:
 
       - name: Clone fdroiddata and build
         run: |
-          export GRADLE_USER_HOME=${home_vagrant}/.gradle
-          export ANDROID_HOME=/github/home/.android/sdk
           export DEBIAN_FRONTEND=noninteractive
           export fdroidserver=${PWD}/fdroidserver
           git clone --depth 1 https://gitlab.com/fdroid/fdroidserver.git "${fdroidserver}"
