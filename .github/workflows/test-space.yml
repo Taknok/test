@@ -1,0 +1,43 @@
+name: Tesr Space
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      ANDROID_COMPILE_SDK: 33
+      ANDROID_BUILD_TOOLS: 33.0.2
+      ANDROID_SDK_TOOLS: 9477386
+      NDK_VERSION: 26.2.11394342
+
+    steps:
+      - name: before
+        run: |
+          df -h
+      
+      - name: Maximize build space
+        uses: easimon/maximize-build-space@v10
+        with:
+          remove-docker-images: 'true'
+          remove-codeql: 'true'
+          remove-haskell: 'true'
+          remove-android: 'true'
+          remove-dotnet: 'true'
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Print env
+        run: |
+          env
+          echo "*******************"
+          pwd
+          echo "--------------------"
+          df -h
