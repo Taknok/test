@@ -11,7 +11,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    container: registry.gitlab.com/fdroid/fdroidserver:buildserver
     env:
       ANDROID_COMPILE_SDK: 33
       ANDROID_BUILD_TOOLS: 33.0.2
@@ -31,8 +30,11 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt-get --quiet update --yes
-          sudo apt-get --quiet install --yes wget unzip git cmake make m4 g++ pkg-config libssl-dev python-is-python3 python3-distutils python3-venv tcl gyp ninja-build bzip2 libz-dev libffi-dev libsqlite3-dev
+          sudo apt-get --quiet install --yes wget unzip git cmake make m4 g++ pkg-config libssl-dev python3 python-is-python3 python3-distutils python3-venv tcl gyp ninja-build bzip2 libz-dev libffi-dev libsqlite3-dev
           sudo apt-get --quiet install --yes patch autoconf libtool pkg-config ant
+          sudo apt-get autoremove --purge
+          sudo apt-get clean
+          sudo rm -rf /var/lib/apt/lists/*
 
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
@@ -45,11 +47,14 @@ jobs:
 
       - name: Clone fdroiddata and build
         run: |
-          . /etc/profile.d/bsenv.sh && export GRADLE_USER_HOME=${home_vagrant}/.gradle && export ANDROID_HOME=/github/home/.android/sdk
+          export GRADLE_USER_HOME=${home_vagrant}/.gradle
+          export ANDROID_HOME=/github/home/.android/sdk
+          export DEBIAN_FRONTEND=noninteractive
+          export fdroidserver=${PWD}/fdroidserver
           git clone --depth 1 https://gitlab.com/fdroid/fdroidserver.git "${fdroidserver}"
-          git clone https://gitlab.com/fdroid/fdroiddata.git fdroiddata
+          git clone --depth 1 https://gitlab.com/fdroid/fdroiddata.git fdroiddata
           cd fdroiddata
-          ${fdroidserver}/fdroid build -vv -s us.spotco.fennec_dos:21270020
+          ${fdroidserver}/fdroid build -vv --no-tarball -s us.spotco.fennec_dos:21270020
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v2
