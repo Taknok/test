@@ -45,7 +45,7 @@ jobs:
 
       - name: Clone fdroiddata and build
         run: |
-          . /etc/profile.d/bsenv.sh && export GRADLE_USER_HOME=${home_vagrant}/.gradle
+          . /etc/profile.d/bsenv.sh && export GRADLE_USER_HOME=${home_vagrant}/.gradle && export ANDROID_HOME=/github/home/.android/sdk
           git clone --depth 1 https://gitlab.com/fdroid/fdroidserver.git "${fdroidserver}"
           git clone https://gitlab.com/fdroid/fdroiddata.git fdroiddata
           cd fdroiddata
