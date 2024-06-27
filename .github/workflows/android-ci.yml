@@ -58,6 +58,10 @@ jobs:
       - name: Print env
         run: |
           env
+          echo "*******************"
+          pwd
+          echo "--------------------"
+          df -h
 
       - name: Clone fdroiddata and build
         run: |
