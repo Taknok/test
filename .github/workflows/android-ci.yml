@@ -67,7 +67,7 @@ jobs:
           pip install "${fdroidserver}"
           git clone --depth 1 https://gitlab.com/fdroid/fdroiddata.git fdroiddata
           cd fdroiddata
-          ${fdroidserver}/fdroid --verbose build --no-tarball -s us.spotco.fennec_dos:21270020
+          ${fdroidserver}/fdroid build --verbose --no-tarball -s us.spotco.fennec_dos:21270020
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v2
