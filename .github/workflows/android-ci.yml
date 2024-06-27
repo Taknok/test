@@ -20,9 +20,14 @@ jobs:
       ANDROID_SDK_ROOT: $ANDROID_HOME
 
     steps:
+      - name: env prerun
+        run: |
+          echo "ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ=1" >> $GITHUB_ENV
       - name: Env
         run: |
           env
+          echo "====================="
+          echo ${{ env.ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ }}
 
       - name: Maximize build space
         uses: easimon/maximize-build-space@v10
