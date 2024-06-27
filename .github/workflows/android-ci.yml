@@ -17,7 +17,7 @@ jobs:
       ANDROID_SDK_TOOLS: 9477386
       NDK_VERSION: 26.2.11394342
       ANDROID_HOME: $GITHUB_WORKSPACE/.android/sdk
-      ANDROID_SDK_ROOT: ${{ env.ANDROID_HOME }}
+      ANDROID_SDK_ROOT: $ANDROID_HOME
 
     steps:
       - name: Env
