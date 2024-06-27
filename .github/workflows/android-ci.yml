@@ -27,7 +27,7 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt-get --quiet update --yes
-          sudo apt-get --quiet install --yes wget unzip git cmake make m4 g++ pkg-config libssl-dev python3 python-is-python3 python3-distutils python3-venv tcl gyp ninja-build bzip2 libz-dev libffi-dev libsqlite3-dev
+          sudo apt-get --quiet install --yes mercurial wget unzip git cmake make m4 g++ pkg-config libssl-dev python3 python-is-python3 python3-distutils python3-venv tcl gyp ninja-build bzip2 libz-dev libffi-dev libsqlite3-dev
           sudo apt-get --quiet install --yes patch autoconf libtool pkg-config ant
           sudo apt-get autoremove --purge
           sudo apt-get clean
