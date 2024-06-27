@@ -52,6 +52,7 @@ jobs:
           export DEBIAN_FRONTEND=noninteractive
           export fdroidserver=${PWD}/fdroidserver
           git clone --depth 1 https://gitlab.com/fdroid/fdroidserver.git "${fdroidserver}"
+          pip install "${fdroidserver}"
           git clone --depth 1 https://gitlab.com/fdroid/fdroiddata.git fdroiddata
           cd fdroiddata
           ${fdroidserver}/fdroid build -vv --no-tarball -s us.spotco.fennec_dos:21270020
