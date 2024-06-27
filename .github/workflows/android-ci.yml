@@ -53,6 +53,10 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Print env
+        run: |
+          env
+
       - name: Clone fdroiddata and build
         run: |
           export DEBIAN_FRONTEND=noninteractive
