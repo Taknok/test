@@ -10,7 +10,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     env:
       ANDROID_COMPILE_SDK: 33
       ANDROID_BUILD_TOOLS: 33.0.2
@@ -31,13 +31,16 @@ jobs:
           remove-android: 'true'
           remove-dotnet: 'true'
 
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - name: Install deps
+        run: |
+          apt update 
+          apt install -y procps mercurial
 
       - name: Print env
         run: |
-          env
+          df -h
           echo "*******************"
           pwd
           echo "--------------------"
-          df -h
+          hg clone --ssh /bin/false -- https://hg.mozilla.org/releases/mozilla-release build &
+          watch -n 30 df -h
