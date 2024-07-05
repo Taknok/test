@@ -43,4 +43,4 @@ jobs:
           echo "*******************"
           pwd
           echo "--------------------"
-          watch -n 30 df -h
+          hg clone --ssh /bin/false -- https://hg.mozilla.org/releases/mozilla-release ff
