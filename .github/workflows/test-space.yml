@@ -44,3 +44,6 @@ jobs:
           pwd
           echo "--------------------"
           hg clone --ssh /bin/false -- https://hg.mozilla.org/releases/mozilla-release ff
+          echo "*******************"
+          df -h
+          
