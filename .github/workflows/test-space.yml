@@ -35,7 +35,7 @@ jobs:
       - name: Install deps
         run: |
           sudo apt update 
-          sudo apt install -y procps mercurial
+          sudo apt install -y procps mercurial git
 
       - name: Print env
         run: |
@@ -44,6 +44,7 @@ jobs:
           pwd
           echo "--------------------"
           hg clone --ssh /bin/false -- https://hg.mozilla.org/releases/mozilla-release ff
+          git clone --depth 1 https://gitlab.com/fdroid/fdroiddata.git fdroiddata
           echo "*******************"
           df -h
           
