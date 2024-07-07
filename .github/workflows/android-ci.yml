@@ -76,7 +76,7 @@ jobs:
           cd fdroiddata
           mkdir -p build/srclib
           hg clone --ssh /bin/false -- https://hg.mozilla.org/releases/mozilla-release build/srclib/MozFennec
-          ${fdroidserver}/fdroid build --verbose --no-tarball -s us.spotco.fennec_dos:21270020
+          ${fdroidserver}/fdroid build --verbose --no-tarball -s us.spotco.fennec_dos:21270220
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v2
