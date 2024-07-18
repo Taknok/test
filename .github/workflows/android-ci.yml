@@ -79,7 +79,7 @@ jobs:
       - name: Clone fdroiddata and build
         run: |
           sudo mkdir -p /mnt/runner
-          sudo chown $(id -u): /mnt/runner 
+          sudo chown $(id -u) /mnt/runner 
           cd /mnt/runner
           export DEBIAN_FRONTEND=noninteractive
           export fdroidserver=${PWD}/fdroidserver
