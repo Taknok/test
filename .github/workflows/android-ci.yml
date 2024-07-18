@@ -78,7 +78,8 @@ jobs:
 
       - name: Clone fdroiddata and build
         run: |
-          cd /mnt
+          mkdir -p /mnt/runner
+          cd /mnt/runner
           export DEBIAN_FRONTEND=noninteractive
           export fdroidserver=${PWD}/fdroidserver
           git clone --depth 1 https://gitlab.com/fdroid/fdroidserver.git "${fdroidserver}"
