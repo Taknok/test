@@ -34,7 +34,7 @@ jobs:
 #          docker-images: true
 #          swap-storage: false
 
-      - name: Maximize build space
+#      - name: Maximize build space
 #        uses: easimon/maximize-build-space@master
 #        with:
 #          root-reserve-mb: '9192'
