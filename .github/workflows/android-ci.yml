@@ -3,10 +3,10 @@ name: Android CI
 on:
   push:
     branches:
-      - main2
+      - main3
   pull_request:
     branches:
-      - main2
+      - main3
 
 jobs:
   build:
@@ -44,29 +44,28 @@ jobs:
 #          remove-android: 'false'
 #          remove-dotnet: 'true'
           
-      - name: Set up JDK 17
-        uses: actions/setup-java@v3
-        with:
-          java-version: '17'
-          distribution: 'temurin'
+#      - name: Set up JDK 17
+#        uses: actions/setup-java@v3
+#        with:
+#          java-version: '17'
+#          distribution: 'temurin'
 
       - name: Install dependencies
         run: |
           sudo apt-get --quiet update --yes
-          sudo apt-get --quiet install --yes mercurial wget unzip git cmake make m4 g++ pkg-config libssl-dev python3 python-is-python3 python3-distutils python3-venv tcl gyp ninja-build bzip2 libz-dev libffi-dev libsqlite3-dev
-          sudo apt-get --quiet install --yes patch autoconf libtool pkg-config ant
+          sudo apt-get --quiet install --yes mercurial
           sudo apt-get autoremove --purge
           sudo apt-get clean
           sudo rm -rf /var/lib/apt/lists/*
 
-      - name: Setup Android SDK
-        uses: android-actions/setup-android@v3
-        with:
-          packages: >
-            platforms;android-${{ env.ANDROID_COMPILE_SDK }}
-            platform-tools
-            build-tools;${{ env.ANDROID_BUILD_TOOLS }}
-            ndk;${{ env.NDK_VERSION }}
+#      - name: Setup Android SDK
+#        uses: android-actions/setup-android@v3
+#        with:
+#          packages: >
+#            platforms;android-${{ env.ANDROID_COMPILE_SDK }}
+#            platform-tools
+#            build-tools;${{ env.ANDROID_BUILD_TOOLS }}
+#            ndk;${{ env.NDK_VERSION }}
             
       - name: Print env
         run: |
@@ -81,13 +80,12 @@ jobs:
           sudo mkdir -p /mnt/runner
           sudo chown $(id -u) /mnt/runner 
           cd /mnt/runner
-          export DEBIAN_FRONTEND=noninteractive
-          export fdroidserver=${PWD}/fdroidserver
-          git clone --depth 1 https://gitlab.com/fdroid/fdroidserver.git "${fdroidserver}"
-          pip install "${fdroidserver}"
-          git clone --depth 1 https://gitlab.com/fdroid/fdroiddata.git fdroiddata
-          cd fdroiddata
-          ${fdroidserver}/fdroid build --verbose --no-tarball -s us.spotco.fennec_dos:21270220 || ls -la /mnt/runner/fdroiddata/build/srclib/MozAppServices/libs/android/ && ls -la /mnt/runner/fdroiddata/build/srclib/MozAppServices/libs/android/arm64-v8a && ls -la /mnt/runner/fdroiddata/build/srclib/MozAppServices/libs/android/arm64-v8a/nss
+          hg clone --ssh /bin/false -- https://hg.mozilla.org/releases/mozilla-release MozFennec
+          pushd MozFennec
+          hg update -C -- FIREFOX_127_0_2_RELEASE
+          ./mach build
+          pushd mobile/android/fenix
+          ./gradlew assembleRelease
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v2
