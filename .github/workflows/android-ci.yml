@@ -53,7 +53,7 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt-get --quiet update --yes
-          sudo apt-get --quiet install --yes mercurial libasound2-dev pkg-config
+          sudo apt-get --quiet install --yes mercurial libasound2-dev pkg-config libpulse-dev
           sudo apt-get autoremove --purge
           sudo apt-get clean
           sudo rm -rf /var/lib/apt/lists/*
