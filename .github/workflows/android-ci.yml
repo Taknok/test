@@ -16,6 +16,7 @@ jobs:
       ANDROID_BUILD_TOOLS: 33.0.2
       ANDROID_SDK_TOOLS: 9477386
       NDK_VERSION: 26.2.11394342
+      ANDROID_HOME: "$HOME/.mozbuild/android-sdk-linux"
 
     steps:
 #      - name: Free disk space
