@@ -17,6 +17,7 @@ jobs:
       ANDROID_SDK_TOOLS: 9477386
       NDK_VERSION: 26.2.11394342
       ANDROID_HOME: "$HOME/.mozbuild/android-sdk-linux"
+      LARGE_DIR: "/mnt/runner"
 
     steps:
 #      - name: Free disk space
@@ -76,21 +77,36 @@ jobs:
           echo "--------------------"
           df -h
 
-      - name: Clone fdroiddata and build
+      - name: Create working directory
         run: |
-          sudo mkdir -p /mnt/runner
+          sudo mkdir -p 
           sudo chown $(id -u) /mnt/runner 
-          cd /mnt/runner
+
+      - name: Clone Mozilla source
+        working-directory: $LARGE_DIR
+        run: |
           hg clone --ssh /bin/false -- https://hg.mozilla.org/releases/mozilla-release MozFennec
-          pushd MozFennec
+      - name: Checking out to branch
+        working-directory: $LARGE_DIR/MozFennec
+        run: |
           hg update -C -- FIREFOX_127_0_2_RELEASE
+
+      - name: Bootstrap
+        working-directory: $LARGE_DIR/MozFennec
+        run: |
           ./mach --no-interactive bootstrap --application-choice="GeckoView/Firefox for Android Artifact Mode"
+
+      - name: Build
+        working-directory: $LARGE_DIR/MozFennec
+        run: |
           ./mach build
-          pushd mobile/android/fenix
+      - name: Build app
+        working-directory: $LARGE_DIR/MozFennec/mobile/android/fenix
+        run: |
           ./gradlew assembleRelease
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v2
         with:
           name: build-outputs
-          path: build/fenix/app/build/outputs/
+          path: $LARGE_DIR/MozFennec/mobile/android/fenix/app/build/outputs/apk/fenix/
