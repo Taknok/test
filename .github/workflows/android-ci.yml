@@ -79,8 +79,8 @@ jobs:
 
       - name: Create working directory
         run: |
-          sudo mkdir -p 
-          sudo chown $(id -u) /mnt/runner 
+          sudo mkdir -p $LARGE_DIR
+          sudo chown $(id -u) $LARGE_DIR
 
       - name: Clone Mozilla source
         working-directory: $LARGE_DIR
