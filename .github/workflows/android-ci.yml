@@ -83,6 +83,7 @@ jobs:
           hg clone --ssh /bin/false -- https://hg.mozilla.org/releases/mozilla-release MozFennec
           pushd MozFennec
           hg update -C -- FIREFOX_127_0_2_RELEASE
+          ./mach --no-interactive bootstrap --application-choice="GeckoView/Firefox for Android Artifact Mode"
           ./mach build
           pushd mobile/android/fenix
           ./gradlew assembleRelease
