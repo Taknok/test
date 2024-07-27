@@ -83,7 +83,7 @@ jobs:
           sudo chown $(id -u) $LARGE_DIR
 
       - name: Clone Mozilla source
-        working-directory: ${{LARGE_DIR}}
+        working-directory: ${{env.LARGE_DIR}}
         run: |
           hg clone --ssh /bin/false -- https://hg.mozilla.org/releases/mozilla-release MozFennec
       - name: Checking out to branch
