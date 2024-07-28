@@ -108,10 +108,11 @@ jobs:
         working-directory: ${{env.LARGE_DIR}}/MozFennec
         run: |
           ./mach build
+
       - name: Build app
         working-directory: ${{env.LARGE_DIR}}/MozFennec/mobile/android/fenix
         run: |
-          ./gradlew assembleRelease
+          ./gradlew app:assembleRelease
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v2
