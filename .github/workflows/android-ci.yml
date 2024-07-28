@@ -55,7 +55,7 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt-get --quiet update --yes
-          sudo apt-get --quiet install --yes mercurial libasound2-dev pkg-config libpulse-dev
+          sudo apt-get --quiet install --yes mercurial
           sudo apt-get autoremove --purge
           sudo apt-get clean
           sudo rm -rf /var/lib/apt/lists/*
@@ -97,6 +97,12 @@ jobs:
         run: |
           ./mach --no-interactive bootstrap --application-choice="GeckoView/Firefox for Android Artifact Mode"
           ls -la $HOME/.mozbuild/jdk/
+
+      - name: Set JAVA_HOME
+        run: |
+          JAVA_HOME=$(realpath $HOME/.mozbuild/jdk/jdk-* | head -1)
+          echo $JAVA_HOME
+          echo "JAVA_HOME=$JAVA_HOME" >> $GITHUB_ENV
 
       - name: Build
         working-directory: ${{env.LARGE_DIR}}/MozFennec
