@@ -104,6 +104,12 @@ jobs:
           echo $JAVA_HOME
           echo "JAVA_HOME=$JAVA_HOME" >> $GITHUB_ENV
 
+      - name: Configure Gradle
+        run: |
+          mkdir -p $HOME/.gradle
+          echo "org.gradle.daemon=false" > $HOME/.gradle/gradle.properties
+          echo "org.gradle.jvmargs=-Xmx8G -Dkotlin.daemon.jvm.options=-Xmx4G -XX:+HeapDumpOnOutOfMemoryError -XX:+UseParallelGC -Dfile.encoding=UTF-8p" >> $HOME/.gradle/gradle.properties
+
       - name: Build
         working-directory: ${{env.LARGE_DIR}}/MozFennec
         run: |
@@ -118,4 +124,4 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: build-outputs
-          path: $LARGE_DIR/MozFennec/mobile/android/fenix/app/build/outputs/apk/fenix/
+          path: ${{env.LARGE_DIR}}/MozFennec/mobile/android/fenix/app/build/outputs/apk/fenix/
