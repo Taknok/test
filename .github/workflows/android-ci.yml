@@ -86,7 +86,6 @@ jobs:
         working-directory: ${{env.LARGE_DIR}}
         run: |
           hg clone --ssh /bin/false -- https://hg.mozilla.org/releases/mozilla-release MozFennec
-          pwd
           
       - name: Checking out to branch
         working-directory: ${{env.LARGE_DIR}}/MozFennec
@@ -97,6 +96,7 @@ jobs:
         working-directory: ${{env.LARGE_DIR}}/MozFennec
         run: |
           ./mach --no-interactive bootstrap --application-choice="GeckoView/Firefox for Android Artifact Mode"
+          ls -la $HOME/.mozbuild/jdk/
 
       - name: Build
         working-directory: ${{env.LARGE_DIR}}/MozFennec
