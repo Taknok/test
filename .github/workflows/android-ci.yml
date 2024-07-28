@@ -89,21 +89,21 @@ jobs:
           pwd
           
       - name: Checking out to branch
-        working-directory: $LARGE_DIR/MozFennec
+        working-directory: ${{env.LARGE_DIR}}/MozFennec
         run: |
           hg update -C -- FIREFOX_127_0_2_RELEASE
 
       - name: Bootstrap
-        working-directory: $LARGE_DIR/MozFennec
+        working-directory: ${{env.LARGE_DIR}}/MozFennec
         run: |
           ./mach --no-interactive bootstrap --application-choice="GeckoView/Firefox for Android Artifact Mode"
 
       - name: Build
-        working-directory: $LARGE_DIR/MozFennec
+        working-directory: ${{env.LARGE_DIR}}/MozFennec
         run: |
           ./mach build
       - name: Build app
-        working-directory: $LARGE_DIR/MozFennec/mobile/android/fenix
+        working-directory: ${{env.LARGE_DIR}}/MozFennec/mobile/android/fenix
         run: |
           ./gradlew assembleRelease
 
