@@ -112,7 +112,7 @@ jobs:
       - name: Build app
         working-directory: ${{env.LARGE_DIR}}/MozFennec/mobile/android/fenix
         run: |
-          ./gradlew app:assembleRelease
+          ./gradlew app:assembleDebug
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v2
