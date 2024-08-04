@@ -87,7 +87,7 @@ jobs:
           pip install "${fdroidserver}"
           git clone --depth 1 https://gitlab.com/fdroid/fdroiddata.git fdroiddata
           cd fdroiddata
-          ${fdroidserver}/fdroid build --verbose --no-tarball -s us.spotco.fennec_dos:21270220 || ls -la /mnt/runner/fdroiddata/build/srclib/MozAppServices/libs/ && ls -la /mnt/runner/fdroiddata/build/srclib/MozAppServices/libs/android/ && ls -la /mnt/runner/fdroiddata/build/srclib/MozAppServices/libs/android/arm64-v8a && ls -la /mnt/runner/fdroiddata/build/srclib/MozAppServices/libs/android/arm64-v8a/nss
+          ${fdroidserver}/fdroid build --verbose --no-tarball -s us.spotco.fennec_dos:21280120 || ls -la /mnt/runner/fdroiddata/build/srclib/MozAppServices/libs/ && ls -la /mnt/runner/fdroiddata/build/srclib/MozAppServices/libs/android/ && ls -la /mnt/runner/fdroiddata/build/srclib/MozAppServices/libs/android/arm64-v8a && ls -la /mnt/runner/fdroiddata/build/srclib/MozAppServices/libs/android/arm64-v8a/nss
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v2
