@@ -84,6 +84,7 @@ jobs:
           export DEBIAN_FRONTEND=noninteractive
           export fdroidserver=${PWD}/fdroidserver
           git clone --depth 1 https://gitlab.com/fdroid/fdroidserver.git "${fdroidserver}"
+          sed -i "s/\['sudo', 'SUDO_FORCE_REMOVE=yes', 'dpkg', '--purge', 'sudo'\]/\['echo', 'PATCHED'\]/g" "${fdroidserver}"/fdroidserver/build.py
           pip install "${fdroidserver}"
           git clone --depth 1 https://gitlab.com/fdroid/fdroiddata.git fdroiddata
           cd fdroiddata
