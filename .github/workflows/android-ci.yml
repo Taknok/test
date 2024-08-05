@@ -82,7 +82,7 @@ jobs:
 
       - name: Clone fdroiddata and build
         run: |
-          source /etc/profile.d/bsenv.sh
+          . /etc/profile.d/bsenv.sh
           export DEBIAN_FRONTEND=noninteractive
           git clone --depth 1 https://gitlab.com/fdroid/fdroiddata.git /repo
           ${fdroidserver}/fdroid build --on-server --verbose --no-tarball -s us.spotco.fennec_dos:21280120
