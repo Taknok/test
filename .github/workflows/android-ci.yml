@@ -20,6 +20,7 @@ jobs:
       ANDROID_BUILD_TOOLS: 33.0.2
       ANDROID_SDK_TOOLS: 9477386
       NDK_VERSION: 26.2.11394342
+      APP: "us.spotco.fennec_dos:21280120"
 
     steps:
 #      - name: Free disk space
@@ -84,9 +85,11 @@ jobs:
         run: |
           . /etc/profile.d/bsenv.sh
           export DEBIAN_FRONTEND=noninteractive
+          export PYTHONPATH="${fdroidserver}:$[fdroidserver}/examples"
           git clone --depth 1 https://gitlab.com/fdroid/fdroiddata.git /repo
           cd /repo
-          ${fdroidserver}/fdroid build --on-server --verbose --no-tarball -s us.spotco.fennec_dos:21280120
+          ${fdroidserver}/fdroid fetchsrclibs --verbose ${{ env.APP }}
+          ${fdroidserver}/fdroid build --on-server --verbose --no-tarball -s ${{ env.APP }}
 
       # - name: Upload build artifacts
       #   uses: actions/upload-artifact@v2
