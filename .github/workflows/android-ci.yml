@@ -85,7 +85,7 @@ jobs:
         run: |
           . /etc/profile.d/bsenv.sh
           export DEBIAN_FRONTEND=noninteractive
-          export PYTHONPATH="${fdroidserver}:$[fdroidserver}/examples"
+          export PYTHONPATH=$fdroidserver:$fdroidserver/examples
           git clone --depth 1 https://gitlab.com/fdroid/fdroiddata.git /repo
           cd /repo
           ${fdroidserver}/fdroid fetchsrclibs --verbose ${{ env.APP }}
