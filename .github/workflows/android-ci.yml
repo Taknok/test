@@ -11,6 +11,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    timeout-minutes: 360
     container:
      image: registry.gitlab.com/fdroid/docker-executable-fdroidserver:master
      volumes:
