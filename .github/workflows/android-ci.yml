@@ -86,6 +86,7 @@ jobs:
           . /etc/profile.d/bsenv.sh
           export DEBIAN_FRONTEND=noninteractive
           export PYTHONPATH=$fdroidserver:$fdroidserver/examples
+          export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64/
           git clone --depth 1 https://gitlab.com/fdroid/fdroiddata.git /repo
           mkdir -p ~/.gradle && echo "org.gradle.daemon=false" >> ~/.gradle/gradle.properties
           sudo apt update
