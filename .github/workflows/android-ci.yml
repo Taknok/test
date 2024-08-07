@@ -12,7 +12,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     container:
-     image: registry.gitlab.com/fdroid/docker-executable-fdroidserver:latest
+     image: registry.gitlab.com/fdroid/docker-executable-fdroidserver:master
      volumes:
        - /mnt/repo:/repo
     env:
@@ -92,8 +92,8 @@ jobs:
           sudo apt update
           sudo apt install -y openjdk-17-jdk
           cd /repo
-          ${fdroidserver}/fdroid fetchsrclibs --verbose ${{ env.APP }}
-          ${fdroidserver}/fdroid build --on-server --verbose --no-tarball -s ${{ env.APP }}
+          fdroid fetchsrclibs --verbose ${{ env.APP }}
+          fdroid build --on-server --verbose --no-tarball -s ${{ env.APP }}
 
       # - name: Upload build artifacts
       #   uses: actions/upload-artifact@v2
