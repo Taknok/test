@@ -94,6 +94,7 @@ jobs:
           export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64/
           git clone --depth 1 https://gitlab.com/fdroid/fdroidserver.git $fdroidserver
           sed -i "s/\['sudo', 'SUDO_FORCE_REMOVE=yes', 'dpkg', '--purge', 'sudo'\]/\['echo', '1'\]/g" $fdroidserver/fdroidserver/build.py
+          sudo pip install virtualenv
           python -m virtualenv venv
           source venv/bin/activate
           pip install -e $fdroidserver
