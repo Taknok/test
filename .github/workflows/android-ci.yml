@@ -51,10 +51,10 @@ jobs:
 #          remove-dotnet: 'true'
           
       - name: Set up JDK 17
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
            java-version: '17'
-           distribution: 'temurin'
+           distribution: 'oracle'
 
       # - name: Install dependencies
       #   run: |
@@ -79,6 +79,7 @@ jobs:
           env
           echo "*******************"
           pwd
+          sudo apt list --installed | grep jdk
           echo "--------------------"
           df -h
 
