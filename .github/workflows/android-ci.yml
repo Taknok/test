@@ -94,6 +94,8 @@ jobs:
           export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64/
           git clone --depth 1 https://gitlab.com/fdroid/fdroidserver.git $fdroidserver
           sed -i "s/\['sudo', 'SUDO_FORCE_REMOVE=yes', 'dpkg', '--purge', 'sudo'\]/\['echo', '1'\]/g" $fdroidserver/fdroidserver/build.py
+          python -m virtualenv venv
+          source venv/bin/activate
           pip install -e $fdroidserver
           git clone --depth 1 https://gitlab.com/fdroid/fdroiddata.git $fdroiddata
           mkdir -p ~/.gradle && echo "org.gradle.daemon=false" >> ~/.gradle/gradle.properties
