@@ -65,14 +65,14 @@ jobs:
       #     sudo apt-get clean
       #     sudo rm -rf /var/lib/apt/lists/*
 
-      # - name: Setup Android SDK
-      #   uses: android-actions/setup-android@v3
-      #   with:
-      #     packages: >
-      #       platforms;android-${{ env.ANDROID_COMPILE_SDK }}
-      #       platform-tools
-      #       build-tools;${{ env.ANDROID_BUILD_TOOLS }}
-      #       ndk;${{ env.NDK_VERSION }}
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+        with:
+          packages: >
+            platforms;android-${{ env.ANDROID_COMPILE_SDK }}
+            platform-tools
+            build-tools;${{ env.ANDROID_BUILD_TOOLS }}
+            ndk;${{ env.NDK_VERSION }}
             
       - name: Print env
         run: |
