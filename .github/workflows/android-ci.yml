@@ -82,7 +82,7 @@ jobs:
           env
           echo "*******************"
           pwd
-          sudo apt list --installed | grep jdk
+          sudo apt list --installed | grep --quiet jdk
           echo "--------------------"
           df -h
 
