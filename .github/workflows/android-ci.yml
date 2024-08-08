@@ -87,6 +87,8 @@ jobs:
           # . /etc/profile.d/bsenv.sh
           export fdroidserver=/mnt/fdroidserver
           export fdroiddata=/mnt/fdroiddata
+          sudo install -d -o $USER $fdroidserver
+          sudo install -d -o $USER $fdroiddata
           export DEBIAN_FRONTEND=noninteractive
           export PYTHONPATH=$fdroidserver:$fdroidserver/examples
           export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64/
