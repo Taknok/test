@@ -59,14 +59,14 @@ jobs:
            java-version: '17'
            distribution: 'oracle'
 
-      # - name: Install dependencies
-      #   run: |
-      #     sudo apt-get --quiet update --yes
-      #     sudo apt-get --quiet install --yes mercurial wget unzip git cmake make m4 g++ pkg-config libssl-dev python3 python-is-python3 python3-distutils python3-venv tcl gyp ninja-build bzip2 libz-dev libffi-dev libsqlite3-dev
-      #     sudo apt-get --quiet install --yes patch autoconf libtool pkg-config ant
-      #     sudo apt-get autoremove --purge
-      #     sudo apt-get clean
-      #     sudo rm -rf /var/lib/apt/lists/*
+      - name: Install dependencies
+        run: |
+          sudo apt-get --quiet update --yes
+          sudo apt-get --quiet install --yes mercurial wget unzip git cmake make m4 g++ pkg-config libssl-dev python3 python-is-python3 python3-distutils python3-venv tcl gyp ninja-build bzip2 libz-dev libffi-dev libsqlite3-dev
+          sudo apt-get --quiet install --yes patch autoconf libtool pkg-config ant
+          sudo apt-get autoremove --purge
+          sudo apt-get clean
+          sudo rm -rf /var/lib/apt/lists/*
 
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
@@ -109,7 +109,7 @@ jobs:
           sudo apt install -y openjdk-17-jdk
           cd $fdroiddata
           ${fdroidserver}/fdroid fetchsrclibs --verbose ${{ env.APP }}
-          ${fdroidserver}/fdroid build --server --on-server --verbose --no-tarball -s ${{ env.APP }}
+          ${fdroidserver}/fdroid build --verbose --no-tarball -s ${{ env.APP }}
 
       # - name: Upload build artifacts
       #   uses: actions/upload-artifact@v2
