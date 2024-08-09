@@ -109,7 +109,7 @@ jobs:
           sudo apt install -y openjdk-17-jdk
           cd $fdroiddata
           ${fdroidserver}/fdroid fetchsrclibs --verbose ${{ env.APP }}
-          ${fdroidserver}/fdroid build --on-server --verbose --no-tarball -s ${{ env.APP }}
+          ${fdroidserver}/fdroid build --server --on-server --verbose --no-tarball -s ${{ env.APP }}
 
       # - name: Upload build artifacts
       #   uses: actions/upload-artifact@v2
