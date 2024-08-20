@@ -103,7 +103,7 @@ jobs:
           source venv/bin/activate
           pip install -e $fdroidserver
           git clone --depth 1 https://gitlab.com/fdroid/fdroiddata.git $fdroiddata
-          mkdir -p ~/gradle && wget https://gitlab.com/fdroid/fdroidserver/-/raw/master/gradlew-fdroid -O gradle && chmod 755 ~/gradle/gradle
+          mkdir -p ~/gradle && pushd gradle && wget https://gitlab.com/fdroid/fdroidserver/-/raw/master/gradlew-fdroid -O gradle && chmod 755 ~/gradle/gradle && popd 
           export PATH="$HOME/gradle:$PATH"
           mkdir -p ~/.gradle && echo "org.gradle.daemon=false" >> ~/.gradle/gradle.properties
           echo "org.gradle.jvmargs=-Xmx8G -Dkotlin.daemon.jvm.options=-Xmx4G -XX:+HeapDumpOnOutOfMemoryError -XX:+UseParallelGC -Dfile.encoding=UTF-8p" >> $HOME/.gradle/gradle.properties
