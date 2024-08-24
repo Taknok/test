@@ -13,11 +13,11 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 360
     container:
-     image: registry.gitlab.com/fdroid/docker-executable-fdroidserver:master
-     volumes:
+      image: registry.gitlab.com/fdroid/docker-executable-fdroidserver:master
+      volumes:
        - /mnt/repo:/repo
-    options:
-      memory: "12g"
+      options:
+        memory: "12g"
     env:
       ANDROID_COMPILE_SDK: 33
       ANDROID_BUILD_TOOLS: 33.0.2
