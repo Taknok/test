@@ -22,7 +22,7 @@ jobs:
       ANDROID_BUILD_TOOLS: 33.0.2
       ANDROID_SDK_TOOLS: 9477386
       NDK_VERSION: 26.2.11394342
-      APP: "us.spotco.fennec_dos:21280120"
+      APP: "org.mozilla.fennec_fdroid:1290220"
 
     steps:
 #      - name: Free disk space
