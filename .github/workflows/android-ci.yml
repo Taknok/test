@@ -3,10 +3,10 @@ name: Android CI
 on:
   push:
     branches:
-      - main2
+      - docker
   pull_request:
     branches:
-      - main2
+      - docker
 
 jobs:
   build:
