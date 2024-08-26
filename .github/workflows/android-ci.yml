@@ -93,7 +93,7 @@ jobs:
           mkdir -p ~/.gradle && echo "org.gradle.daemon=false" >> ~/.gradle/gradle.properties
           echo "org.gradle.jvmargs=-Xmx8G -Dkotlin.daemon.jvm.options=-Xmx4G -XX:+HeapDumpOnOutOfMemoryError -XX:+UseParallelGC -Dfile.encoding=UTF-8p" >> $HOME/.gradle/gradle.properties
           sudo apt update
-          sudo apt install -y openjdk-17-jdk
+          sudo apt install -y openjdk-17-jdk python3-pip
           cd /repo
           ${fdroidserver}/fdroid fetchsrclibs --verbose ${{ env.APP }}
           cd build/srclib/MozFennec
