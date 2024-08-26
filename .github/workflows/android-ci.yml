@@ -96,9 +96,6 @@ jobs:
           sudo apt install -y openjdk-17-jdk python3-pip
           cd /repo
           ${fdroidserver}/fdroid fetchsrclibs --verbose ${{ env.APP }}
-          cd build/srclib/MozFennec
-          ./mach --no-interactive bootstrap --application-choice="GeckoView/Firefox for Android Artifact Mode"
-          cd /repo
           ${fdroidserver}/fdroid build --on-server --verbose --no-tarball -s ${{ env.APP }}
 
       # - name: Upload build artifacts
