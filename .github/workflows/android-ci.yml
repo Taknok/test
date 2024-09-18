@@ -92,7 +92,7 @@ jobs:
           git clone --depth 1 https://gitlab.com/fdroid/fdroiddata.git /repo
           # mkdir -p ~/.gradle && echo "org.gradle.daemon=false" >> ~/.gradle/gradle.properties
           # echo "org.gradle.jvmargs=-Xmx8G -Dkotlin.daemon.jvm.options=-Xmx4G -XX:+HeapDumpOnOutOfMemoryError -XX:+UseParallelGC -Dfile.encoding=UTF-8p" >> $HOME/.gradle/gradle.properties
-          echo "y" | sdkmanager platforms;android-${{ env.ANDROID_COMPILE_SDK }} platform-tools build-tools;${{ env.ANDROID_BUILD_TOOLS }} ndk;${{ env.NDK_VERSION }}
+          echo "y" | sdkmanager "platforms;android-${{ env.ANDROID_COMPILE_SDK }}" "platform-tools" "build-tools;${{ env.ANDROID_BUILD_TOOLS }}" "ndk;${{ env.NDK_VERSION }}"
           # sudo apt update
           # sudo apt install -y openjdk-17-jdk python3-pip
           sed -i /if onserver:/if not onserver:/ ${fdroidserver}/fdroidserver/build.py
