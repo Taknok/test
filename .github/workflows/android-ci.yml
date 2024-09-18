@@ -10,12 +10,12 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    # runs-on: ubuntu-latest
     timeout-minutes: 360
-    container:
-      image: registry.gitlab.com/fdroid/docker-executable-fdroidserver:master
-      volumes:
-       - /mnt/repo:/repo
+    # container:
+      # image: registry.gitlab.com/fdroid/docker-executable-fdroidserver:master
+      # volumes:
+       # - /mnt/repo:/repo
       #options: '--memory "16g"'
     env:
       ANDROID_COMPILE_SDK: 33
@@ -83,29 +83,63 @@ jobs:
           echo "--------------------"
           df -h
 
-      - name: Clone fdroiddata and build
+      - name: Remove all JDK
         run: |
-          . /etc/profile.d/bsenv.sh
-          ls -la /
-          sudo fallocate -l 6G /repo/swapfile
-          sudo chmod 600 /repo/swapfile
-          sudo mkswap /repo/swapfile
-          sudo swapon /repo/swapfile
-          sudo free -th
-          export DEBIAN_FRONTEND=noninteractive
-          # export PYTHONPATH=$fdroidserver:$fdroidserver/examples
-          # export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64/
-          git clone --depth 1 https://gitlab.com/fdroid/fdroiddata.git /repo/fdroiddata
-          # mkdir -p ~/.gradle && echo "org.gradle.daemon=false" >> ~/.gradle/gradle.properties
-          # echo "org.gradle.jvmargs=-Xmx8G -Dkotlin.daemon.jvm.options=-Xmx4G -XX:+HeapDumpOnOutOfMemoryError -XX:+UseParallelGC -Dfile.encoding=UTF-8p" >> $HOME/.gradle/gradle.properties
-          echo "y" | sdkmanager "platforms;android-${{ env.ANDROID_COMPILE_SDK }}" "platform-tools" "build-tools;${{ env.ANDROID_BUILD_TOOLS }}" "ndk;${{ env.NDK_VERSION }}"
-          # sudo apt update
-          # sudo apt install -y openjdk-17-jdk python3-pip
-          sed -i "s/if onserver:/if not onserver:/" ${fdroidserver}/fdroidserver/build.py
-          sed -i "s/p = FDroidPopen(\['sudo', 'SUDO_FORCE.*'\])/p = FDroidPopen(\['echo', '1'\])/" ${fdroidserver}/fdroidserver/build.py
-          cd /repo/fdroiddata
-          # ${fdroidserver}/fdroid fetchsrclibs --verbose ${{ env.APP }}
-          ${fdroidserver}/fdroid build --verbose --latest ${{ env.APP }}
+          sudo apt-get remove -y --purge *-jdk openjdk-*
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+           java-version: '17'
+           distribution: 'oracle'
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get --quiet update --yes
+          sudo apt-get --quiet install --yes git
+          sudo apt-get autoremove --purge
+          sudo apt-get clean
+          sudo rm -rf /var/lib/apt/lists/*
+
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+        with:
+          packages: >
+            platforms;android-${{ env.ANDROID_COMPILE_SDK }}
+            platform-tools
+            build-tools;${{ env.ANDROID_BUILD_TOOLS }}
+            ndk;${{ env.NDK_VERSION }}
+
+      - name: Run
+        run: |
+          env
+          ls -la $HOME/
+          git clone https://gitlab.com/fdroid/fdroidserver.git /mnt/fdroidserver
+          git clone https://gitlab.com/fdroid/fdroiddata.git /mnt/fdroiddata
+
+      # - name: Clone fdroiddata and build
+      #   run: |
+      #     . /etc/profile.d/bsenv.sh
+      #     ls -la /
+      #     sudo fallocate -l 6G /repo/swapfile
+      #     sudo chmod 600 /repo/swapfile
+      #     sudo mkswap /repo/swapfile
+      #     sudo swapon /repo/swapfile
+      #     sudo free -th
+      #     export DEBIAN_FRONTEND=noninteractive
+      #     # export PYTHONPATH=$fdroidserver:$fdroidserver/examples
+      #     # export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64/
+      #     git clone --depth 1 https://gitlab.com/fdroid/fdroiddata.git /repo/fdroiddata
+      #     # mkdir -p ~/.gradle && echo "org.gradle.daemon=false" >> ~/.gradle/gradle.properties
+      #     # echo "org.gradle.jvmargs=-Xmx8G -Dkotlin.daemon.jvm.options=-Xmx4G -XX:+HeapDumpOnOutOfMemoryError -XX:+UseParallelGC -Dfile.encoding=UTF-8p" >> $HOME/.gradle/gradle.properties
+      #     echo "y" | sdkmanager "platforms;android-${{ env.ANDROID_COMPILE_SDK }}" "platform-tools" "build-tools;${{ env.ANDROID_BUILD_TOOLS }}" "ndk;${{ env.NDK_VERSION }}"
+      #     # sudo apt update
+      #     # sudo apt install -y openjdk-17-jdk python3-pip
+      #     sed -i "s/if onserver:/if not onserver:/" ${fdroidserver}/fdroidserver/build.py
+      #     sed -i "s/p = FDroidPopen(\['sudo', 'SUDO_FORCE.*'\])/p = FDroidPopen(\['echo', '1'\])/" ${fdroidserver}/fdroidserver/build.py
+      #     cd /repo/fdroiddata
+      #     # ${fdroidserver}/fdroid fetchsrclibs --verbose ${{ env.APP }}
+      #     ${fdroidserver}/fdroid build --verbose --latest ${{ env.APP }}
 
       # - name: Upload build artifacts
       #   uses: actions/upload-artifact@v2
