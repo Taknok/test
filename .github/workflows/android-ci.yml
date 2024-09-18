@@ -16,7 +16,7 @@ jobs:
       image: registry.gitlab.com/fdroid/docker-executable-fdroidserver:master
       volumes:
        - /mnt/repo:/repo
-      options: '--memory "16g"'
+      #options: '--memory "16g"'
     env:
       ANDROID_COMPILE_SDK: 33
       ANDROID_BUILD_TOOLS: 33.0.2
@@ -86,6 +86,10 @@ jobs:
       - name: Clone fdroiddata and build
         run: |
           . /etc/profile.d/bsenv.sh
+          fallocate -l 6G /swapfile
+          chmod 600 /swapfile
+          mkswap /swapfile
+          swapon /swapfile
           export DEBIAN_FRONTEND=noninteractive
           # export PYTHONPATH=$fdroidserver:$fdroidserver/examples
           # export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64/
