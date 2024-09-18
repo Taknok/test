@@ -86,10 +86,11 @@ jobs:
       - name: Clone fdroiddata and build
         run: |
           . /etc/profile.d/bsenv.sh
-          fallocate -l 6G /swapfile
-          chmod 600 /swapfile
-          mkswap /swapfile
-          swapon /swapfile
+          sudo fallocate -l 6G /swapfile
+          sudo chmod 600 /swapfile
+          sudo mkswap /swapfile
+          sudo swapon /swapfile
+          sudo free -th
           export DEBIAN_FRONTEND=noninteractive
           # export PYTHONPATH=$fdroidserver:$fdroidserver/examples
           # export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64/
