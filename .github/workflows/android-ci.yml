@@ -95,8 +95,8 @@ jobs:
           echo "y" | sdkmanager "platforms;android-${{ env.ANDROID_COMPILE_SDK }}" "platform-tools" "build-tools;${{ env.ANDROID_BUILD_TOOLS }}" "ndk;${{ env.NDK_VERSION }}"
           # sudo apt update
           # sudo apt install -y openjdk-17-jdk python3-pip
-          sed -i /if onserver:/if not onserver:/ ${fdroidserver}/fdroidserver/build.py
-          sed -i /p = FDroidPopen(['sudo', 'SUDO_FORCE.*'])/p = FDroidPopen(['echo', '1'])/ ${fdroidserver}/fdroidserver/build.py
+          sed -i "s/if onserver:/if not onserver:/" ${fdroidserver}/fdroidserver/build.py
+          sed -i "s/p = FDroidPopen(\['sudo', 'SUDO_FORCE.*'\])/p = FDroidPopen(\['echo', '1'\])/ ${fdroidserver}/fdroidserver/build.py
           cd /repo
           # ${fdroidserver}/fdroid fetchsrclibs --verbose ${{ env.APP }}
           ${fdroidserver}/fdroid build --verbose --latest ${{ env.APP }}
