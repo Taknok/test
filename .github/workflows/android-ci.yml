@@ -16,7 +16,7 @@ jobs:
       image: registry.gitlab.com/fdroid/docker-executable-fdroidserver:master
       volumes:
        - /mnt/repo:/repo
-       - /mnt/swap:/swapon
+       - /mnt/test:/test
       #options: '--memory "16g"'
     env:
       ANDROID_COMPILE_SDK: 33
