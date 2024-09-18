@@ -16,13 +16,13 @@ jobs:
       image: registry.gitlab.com/fdroid/docker-executable-fdroidserver:master
       volumes:
        - /mnt/repo:/repo
-      options: '--memory "12g"'
+      options: '--memory "16g"'
     env:
       ANDROID_COMPILE_SDK: 33
       ANDROID_BUILD_TOOLS: 33.0.2
       ANDROID_SDK_TOOLS: 9477386
       NDK_VERSION: 26.2.11394342
-      APP: "org.mozilla.fennec_fdroid:1290220"
+      APP: "org.mozilla.fennec_fdroid"
 
     steps:
 #      - name: Free disk space
@@ -87,16 +87,19 @@ jobs:
         run: |
           . /etc/profile.d/bsenv.sh
           export DEBIAN_FRONTEND=noninteractive
-          export PYTHONPATH=$fdroidserver:$fdroidserver/examples
-          export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64/
+          # export PYTHONPATH=$fdroidserver:$fdroidserver/examples
+          # export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64/
           git clone --depth 1 https://gitlab.com/fdroid/fdroiddata.git /repo
-          mkdir -p ~/.gradle && echo "org.gradle.daemon=false" >> ~/.gradle/gradle.properties
-          echo "org.gradle.jvmargs=-Xmx8G -Dkotlin.daemon.jvm.options=-Xmx4G -XX:+HeapDumpOnOutOfMemoryError -XX:+UseParallelGC -Dfile.encoding=UTF-8p" >> $HOME/.gradle/gradle.properties
-          sudo apt update
-          sudo apt install -y openjdk-17-jdk python3-pip
+          # mkdir -p ~/.gradle && echo "org.gradle.daemon=false" >> ~/.gradle/gradle.properties
+          # echo "org.gradle.jvmargs=-Xmx8G -Dkotlin.daemon.jvm.options=-Xmx4G -XX:+HeapDumpOnOutOfMemoryError -XX:+UseParallelGC -Dfile.encoding=UTF-8p" >> $HOME/.gradle/gradle.properties
+          echo "y" | sdkmanager platforms;android-${{ env.ANDROID_COMPILE_SDK }} platform-tools build-tools;${{ env.ANDROID_BUILD_TOOLS }} ndk;${{ env.NDK_VERSION }}
+          # sudo apt update
+          # sudo apt install -y openjdk-17-jdk python3-pip
+          sed -i /if onserver:/if not onserver:/ ${fdroidserver}/fdroidserver/build.py
+          sed -i /p = FDroidPopen(['sudo', 'SUDO_FORCE.*'])/p = FDroidPopen(['echo', '1'])/ ${fdroidserver}/fdroidserver/build.py
           cd /repo
-          ${fdroidserver}/fdroid fetchsrclibs --verbose ${{ env.APP }}
-          ${fdroidserver}/fdroid build --on-server --verbose --no-tarball -s ${{ env.APP }}
+          # ${fdroidserver}/fdroid fetchsrclibs --verbose ${{ env.APP }}
+          ${fdroidserver}/fdroid build --verbose --latest ${{ env.APP }}
 
       # - name: Upload build artifacts
       #   uses: actions/upload-artifact@v2
