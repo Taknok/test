@@ -16,7 +16,7 @@ jobs:
       image: registry.gitlab.com/fdroid/docker-executable-fdroidserver:master
       volumes:
        - /mnt/repo:/repo
-       - /mnt/swap:/swap
+       - /mnt/swap:/swapon
       #options: '--memory "16g"'
     env:
       ANDROID_COMPILE_SDK: 33
@@ -87,10 +87,11 @@ jobs:
       - name: Clone fdroiddata and build
         run: |
           . /etc/profile.d/bsenv.sh
-          sudo fallocate -l 6G /swap/swapfile
-          sudo chmod 600 /swap/swapfile
-          sudo mkswap /swap/swapfile
-          sudo swapon /swap/swapfile
+          ls -la /
+          sudo fallocate -l 6G /swapon/swapfile
+          sudo chmod 600 /swapon/swapfile
+          sudo mkswap /swapon/swapfile
+          sudo swapon /swapon/swapfile
           sudo free -th
           export DEBIAN_FRONTEND=noninteractive
           # export PYTHONPATH=$fdroidserver:$fdroidserver/examples
