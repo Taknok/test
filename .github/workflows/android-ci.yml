@@ -125,9 +125,9 @@ jobs:
           docker pull registry.gitlab.com/fdroid/docker-executable-fdroidserver:master
           # docker run --rm -v $ANDROID_HOME:/opt/android-sdk -v /mnt/fdroiddata:/repo -v /mnt/fdroidserver:/home/vagrant/fdroidserver -e ANDROID_HOME:/opt/android-sdk registry.gitlab.com/fdroid/docker-executable-fdroidserver:master build --verbose --latest org.mozilla.fennec_fdroid
           docker run --rm -u $(id -u):$(id -g) --entrypoint /bin/bash -v $ANDROID_HOME:/opt/android-sdk -v /mnt/fdroiddata:/repo -v /mnt/fdroidserver:/home/vagrant/fdroidserver -e ANDROID_HOME:/opt/android-sdk registry.gitlab.com/fdroid/docker-executable-fdroidserver:master -c id
-          docker run --rm -u $(id -u):$(id -g) --entrypoint /bin/bash -v $ANDROID_HOME:/opt/android-sdk -v /mnt/fdroiddata:/repo -v /mnt/fdroidserver:/home/vagrant/fdroidserver -e ANDROID_HOME:/opt/android-sdk registry.gitlab.com/fdroid/docker-executable-fdroidserver:master cat /etc/passwd
-          docker run --rm --entrypoint /bin/bash -v $ANDROID_HOME:/opt/android-sdk -v /mnt/fdroiddata:/repo -v /mnt/fdroidserver:/home/vagrant/fdroidserver -e ANDROID_HOME:/opt/android-sdk registry.gitlab.com/fdroid/docker-executable-fdroidserver:master id
-          docker run --rm --entrypoint /bin/bash -v $ANDROID_HOME:/opt/android-sdk -v /mnt/fdroiddata:/repo -v /mnt/fdroidserver:/home/vagrant/fdroidserver -e ANDROID_HOME:/opt/android-sdk registry.gitlab.com/fdroid/docker-executable-fdroidserver:master cat /etc/passwd
+          docker run --rm -u $(id -u):$(id -g) --entrypoint /bin/bash -v $ANDROID_HOME:/opt/android-sdk -v /mnt/fdroiddata:/repo -v /mnt/fdroidserver:/home/vagrant/fdroidserver -e ANDROID_HOME:/opt/android-sdk registry.gitlab.com/fdroid/docker-executable-fdroidserver:master -c cat /etc/passwd
+          docker run --rm --entrypoint /bin/bash -v $ANDROID_HOME:/opt/android-sdk -v /mnt/fdroiddata:/repo -v /mnt/fdroidserver:/home/vagrant/fdroidserver -e ANDROID_HOME:/opt/android-sdk registry.gitlab.com/fdroid/docker-executable-fdroidserver:master -c id
+          docker run --rm --entrypoint /bin/bash -v $ANDROID_HOME:/opt/android-sdk -v /mnt/fdroiddata:/repo -v /mnt/fdroidserver:/home/vagrant/fdroidserver -e ANDROID_HOME:/opt/android-sdk registry.gitlab.com/fdroid/docker-executable-fdroidserver:master -c cat /etc/passwd
 
 
       # - name: Clone fdroiddata and build
