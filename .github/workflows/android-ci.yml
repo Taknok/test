@@ -89,11 +89,11 @@ jobs:
         run: |
           sudo apt-get remove -y --purge *-jdk openjdk-*
 
-      - name: Set up JDK 17
-        uses: actions/setup-java@v4
-        with:
-           java-version: '17'
-           distribution: 'oracle'
+      #- name: Set up JDK 17
+      #  uses: actions/setup-java@v4
+      #  with:
+      #     java-version: '17'
+      #     distribution: 'oracle'
 
       - name: Install dependencies
         run: |
@@ -103,14 +103,14 @@ jobs:
           sudo apt-get clean
           sudo rm -rf /var/lib/apt/lists/*
 
-      - name: Setup Android SDK
-        uses: android-actions/setup-android@v3
-        with:
-          packages: >
-            platforms;android-${{ env.ANDROID_COMPILE_SDK }}
-            platform-tools
-            build-tools;${{ env.ANDROID_BUILD_TOOLS }}
-            ndk;${{ env.NDK_VERSION }}
+      #- name: Setup Android SDK
+      #  uses: android-actions/setup-android@v3
+      #  with:
+      #    packages: >
+      #      platforms;android-${{ env.ANDROID_COMPILE_SDK }}
+      #      platform-tools
+      #      build-tools;${{ env.ANDROID_BUILD_TOOLS }}
+      #      ndk;${{ env.NDK_VERSION }}
 
       - name: Run
         run: |
@@ -122,12 +122,17 @@ jobs:
           sudo mkdir -p /mnt/fdroiddata
           sudo chown $(id -u):$(id -g) /mnt/fdroidserver
           sudo chown $(id -u):$(id -g) /mnt/fdroiddata
-          git clone https://gitlab.com/fdroid/fdroidserver.git /mnt/fdroidserver
-          git clone https://gitlab.com/fdroid/fdroiddata.git /mnt/fdroiddata
+          #git clone https://gitlab.com/fdroid/fdroidserver.git /mnt/fdroidserver
+          #git clone https://gitlab.com/fdroid/fdroiddata.git /mnt/fdroiddata
           sed -i "s/if onserver:/if not onserver:/" /mnt/fdroidserver/fdroidserver/build.py
           sed -i "s/p = FDroidPopen(\['sudo', 'SUDO_FORCE.*'\])/p = FDroidPopen(\['echo', '1'\])/" /mnt/fdroidserver/fdroidserver/build.py
           docker pull registry.gitlab.com/fdroid/docker-executable-fdroidserver:master
-          docker run --rm -v $ANDROID_HOME:/opt/android-sdk -v /mnt/fdroiddata:/repo -v /mnt/fdroidserver:/home/vagrant/fdroidserver -e ANDROID_HOME:/opt/android-sdk registry.gitlab.com/fdroid/docker-executable-fdroidserver:master build --verbose --latest org.mozilla.fennec_fdroid
+          # docker run --rm -v $ANDROID_HOME:/opt/android-sdk -v /mnt/fdroiddata:/repo -v /mnt/fdroidserver:/home/vagrant/fdroidserver -e ANDROID_HOME:/opt/android-sdk registry.gitlab.com/fdroid/docker-executable-fdroidserver:master build --verbose --latest org.mozilla.fennec_fdroid
+          docker run --rm --entrypoint /bin/bash -v $ANDROID_HOME:/opt/android-sdk -v /mnt/fdroiddata:/repo -v /mnt/fdroidserver:/home/vagrant/fdroidserver -e ANDROID_HOME:/opt/android-sdk registry.gitlab.com/fdroid/docker-executable-fdroidserver:master id
+          docker run --rm --entrypoint /bin/bash -v $ANDROID_HOME:/opt/android-sdk -v /mnt/fdroiddata:/repo -v /mnt/fdroidserver:/home/vagrant/fdroidserver -e ANDROID_HOME:/opt/android-sdk registry.gitlab.com/fdroid/docker-executable-fdroidserver:master cat /etc/passwd
+          docker run --rm -u $(id -u):$(id -g) --entrypoint /bin/bash -v $ANDROID_HOME:/opt/android-sdk -v /mnt/fdroiddata:/repo -v /mnt/fdroidserver:/home/vagrant/fdroidserver -e ANDROID_HOME:/opt/android-sdk registry.gitlab.com/fdroid/docker-executable-fdroidserver:master id
+          docker run --rm -u $(id -u):$(id -g) --entrypoint /bin/bash -v $ANDROID_HOME:/opt/android-sdk -v /mnt/fdroiddata:/repo -v /mnt/fdroidserver:/home/vagrant/fdroidserver -e ANDROID_HOME:/opt/android-sdk registry.gitlab.com/fdroid/docker-executable-fdroidserver:master cat /etc/passwd
+
 
       # - name: Clone fdroiddata and build
       #   run: |
