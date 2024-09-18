@@ -16,7 +16,6 @@ jobs:
       image: registry.gitlab.com/fdroid/docker-executable-fdroidserver:master
       volumes:
        - /mnt/repo:/repo
-       - /mnt/test:/test
       #options: '--memory "16g"'
     env:
       ANDROID_COMPILE_SDK: 33
@@ -88,15 +87,15 @@ jobs:
         run: |
           . /etc/profile.d/bsenv.sh
           ls -la /
-          sudo fallocate -l 6G /swapon/swapfile
-          sudo chmod 600 /swapon/swapfile
-          sudo mkswap /swapon/swapfile
-          sudo swapon /swapon/swapfile
+          sudo fallocate -l 6G /repo/swapfile
+          sudo chmod 600 /repo/swapfile
+          sudo mkswap /repo/swapfile
+          sudo swapon /repo/swapfile
           sudo free -th
           export DEBIAN_FRONTEND=noninteractive
           # export PYTHONPATH=$fdroidserver:$fdroidserver/examples
           # export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64/
-          git clone --depth 1 https://gitlab.com/fdroid/fdroiddata.git /repo
+          git clone --depth 1 https://gitlab.com/fdroid/fdroiddata.git /repo/fdroiddata
           # mkdir -p ~/.gradle && echo "org.gradle.daemon=false" >> ~/.gradle/gradle.properties
           # echo "org.gradle.jvmargs=-Xmx8G -Dkotlin.daemon.jvm.options=-Xmx4G -XX:+HeapDumpOnOutOfMemoryError -XX:+UseParallelGC -Dfile.encoding=UTF-8p" >> $HOME/.gradle/gradle.properties
           echo "y" | sdkmanager "platforms;android-${{ env.ANDROID_COMPILE_SDK }}" "platform-tools" "build-tools;${{ env.ANDROID_BUILD_TOOLS }}" "ndk;${{ env.NDK_VERSION }}"
@@ -104,7 +103,7 @@ jobs:
           # sudo apt install -y openjdk-17-jdk python3-pip
           sed -i "s/if onserver:/if not onserver:/" ${fdroidserver}/fdroidserver/build.py
           sed -i "s/p = FDroidPopen(\['sudo', 'SUDO_FORCE.*'\])/p = FDroidPopen(\['echo', '1'\])/" ${fdroidserver}/fdroidserver/build.py
-          cd /repo
+          cd /repo/fdroiddata
           # ${fdroidserver}/fdroid fetchsrclibs --verbose ${{ env.APP }}
           ${fdroidserver}/fdroid build --verbose --latest ${{ env.APP }}
 
