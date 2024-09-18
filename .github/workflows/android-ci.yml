@@ -127,7 +127,7 @@ jobs:
           sed -i "s/if onserver:/if not onserver:/" /mnt/fdroidserver/fdroidserver/build.py
           sed -i "s/p = FDroidPopen(\['sudo', 'SUDO_FORCE.*'\])/p = FDroidPopen(\['echo', '1'\])/" /mnt/fdroidserver/fdroidserver/build.py
           docker pull registry.gitlab.com/fdroid/docker-executable-fdroidserver:master
-          docker run --rm -u $(id -u):$(id -g) -v $ANDROID_HOME:/opt/android-sdk -v /mnt/fdroiddata:/repo -v /mnt/fdroidserver:/home/vagrant/fdroidserver -e ANDROID_HOME:/opt/android-sdk registry.gitlab.com/fdroid/docker-executable-fdroidserver:master build --verbose --latest org.mozilla.fennec_fdroid
+          docker run --rm -v $ANDROID_HOME:/opt/android-sdk -v /mnt/fdroiddata:/repo -v /mnt/fdroidserver:/home/vagrant/fdroidserver -e ANDROID_HOME:/opt/android-sdk registry.gitlab.com/fdroid/docker-executable-fdroidserver:master build --verbose --latest org.mozilla.fennec_fdroid
 
       # - name: Clone fdroiddata and build
       #   run: |
