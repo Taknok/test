@@ -122,6 +122,7 @@ jobs:
           git clone https://gitlab.com/fdroid/fdroiddata.git /mnt/fdroiddata
           sed -i "s/if onserver:/if not onserver:/" /mnt/fdroidserver/fdroidserver/build.py
           sed -i "s/p = FDroidPopen(\['sudo', 'SUDO_FORCE.*'\])/p = FDroidPopen(\['echo', '1'\])/" /mnt/fdroidserver/fdroidserver/build.py
+          docker pull registry.gitlab.com/fdroid/docker-executable-fdroidserver:master
 
       # - name: Clone fdroiddata and build
       #   run: |
