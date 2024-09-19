@@ -130,6 +130,9 @@ jobs:
           sudo swapon /swapfile
           sudo free -th
           docker pull registry.gitlab.com/fdroid/docker-executable-fdroidserver:master
+          echo ".........................."
+          sudo df -h /
+          (while true; do df -h; sleep 60; done) &
           docker run --rm -u 1000:1000 -v $ANDROID_HOME:/opt/android-sdk -v /mnt/fdroiddata:/repo -v /mnt/fdroidserver:/home/vagrant/fdroidserver -e ANDROID_HOME:/opt/android-sdk registry.gitlab.com/fdroid/docker-executable-fdroidserver:master build --verbose --latest org.mozilla.fennec_fdroid
           #docker run --rm -u 1000:1000 --entrypoint /bin/bash -v $ANDROID_HOME:/opt/android-sdk -v /mnt/fdroiddata:/repo -v /mnt/fdroidserver:/home/vagrant/fdroidserver -e ANDROID_HOME:/opt/android-sdk registry.gitlab.com/fdroid/docker-executable-fdroidserver:master -c id
           #docker run --rm -u 1000:1000 --entrypoint /usr/bin/cat -v $ANDROID_HOME:/opt/android-sdk -v /mnt/fdroiddata:/repo -v /mnt/fdroidserver:/home/vagrant/fdroidserver -e ANDROID_HOME:/opt/android-sdk registry.gitlab.com/fdroid/docker-executable-fdroidserver:master /etc/passwd
