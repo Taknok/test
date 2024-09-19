@@ -80,7 +80,7 @@ jobs:
           docker run --rm -u 1000:1000 -v $ANDROID_HOME:/opt/android-sdk -v /mnt/fdroiddata:/repo -v /mnt/fdroidserver:/home/vagrant/fdroidserver -e ANDROID_HOME:/opt/android-sdk registry.gitlab.com/fdroid/docker-executable-fdroidserver:master build --verbose --latest ${{ env.APP }}
 
       - name: Upload build artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: build-outputs
           path: /mnt/fdroiddata/build/srclib/MozFennec/mobile/android/fenix/app/build/outputs/apk/fenix/release/app-*-release-unsigned.apk
