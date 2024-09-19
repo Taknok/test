@@ -114,10 +114,10 @@ jobs:
 
       - name: Configure docker
         run: |
-          systemctl stop docker
-          cat /etc/docker/daemon.json || echo 1
-          echo '{"data-root": "/mnt/docker"}' > /etc/docker/daemon.json
-          systemctl start docker
+          sudo systemctl stop docker
+          sudo cat /etc/docker/daemon.json || echo 1
+          sudo echo '{"data-root": "/mnt/docker"}' > /etc/docker/daemon.json
+          sudo systemctl start docker
 
       - name: Run
         run: |
