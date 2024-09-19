@@ -116,8 +116,9 @@ jobs:
         run: |
           sudo systemctl stop docker
           sudo ls -la /etc/docker/
-          # sudo cat /etc/docker/daemon.json || echo 1
-          sudo echo '{"data-root": "/mnt/docker"}' > /etc/docker/daemon.json
+          sudo cat /etc/docker/daemon.json
+          sudo id
+          #sudo echo '{"data-root": "/mnt/docker"}' > /etc/docker/daemon.json
           sudo systemctl start docker
 
       - name: Run
